@@ -3,65 +3,72 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kastello — Meta x Resultado</title>
+<title>Kastello — Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: #0e0e0f; color: #f0ede8; font-family: 'Barlow', sans-serif; min-height: 100vh; }
-header { background: #1a1a1c; border-bottom: 1px solid rgba(255,255,255,.07); padding: 14px 28px; display: flex; align-items: center; gap: 14px; }
-.brand { font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 700; color: #E8650A; line-height: 1; }
-.brand-sub { font-size: 10px; color: #666; text-transform: uppercase; letter-spacing: .1em; margin-top: 2px; }
-.header-r { margin-left: auto; text-align: right; }
-.pill { display: inline-block; font-size: 12px; color: #E8650A; background: rgba(232,101,10,.12); border: 1px solid rgba(232,101,10,.3); padding: 4px 14px; border-radius: 99px; }
-.vivo { font-size: 11px; color: #666; margin-top: 4px; display: flex; align-items: center; justify-content: flex-end; gap: 5px; }
-.vivo::before { content:''; width:6px; height:6px; border-radius:50%; background:#1D9E75; animation: pulse 2s infinite; }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.2} }
-.page { max-width: 1200px; margin: 0 auto; padding: 22px 28px; }
-.kpis { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 18px; }
-@media(max-width:700px){ .kpis{grid-template-columns:repeat(2,1fr);} .page{padding:14px;} }
-.kpi { background: #1a1a1c; border: 1px solid rgba(255,255,255,.07); border-left: 3px solid #E8650A; border-radius: 12px; padding: 16px 18px; }
-.kpi.g{border-left-color:#1D9E75;} .kpi.r{border-left-color:#E24B4A;} .kpi.n{border-left-color:#444;}
-.klbl { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: #666; margin-bottom: 7px; }
-.kval { font-family: 'Barlow Condensed', sans-serif; font-size: 32px; font-weight: 700; line-height: 1; }
-.ksub { font-size: 12px; color: #666; margin-top: 5px; }
-.badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600;}
-.bah{background:rgba(232,101,10,.15);color:#EF9F27;} .bok{background:rgba(29,158,117,.15);color:#5DCAA5;} .bno{background:rgba(226,75,74,.15);color:#F09595;}
-.card { background: #1a1a1c; border: 1px solid rgba(255,255,255,.07); border-radius: 12px; padding: 18px 22px; margin-bottom: 16px; }
-.ctitle { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: #666; margin-bottom: 12px; }
-.prog-lbl{display:flex;justify-content:space-between;font-size:12px;color:#666;margin-bottom:6px;}
-.prog-track{height:10px;background:#222225;border-radius:99px;position:relative;overflow:hidden;}
-.prog-fill{height:100%;border-radius:99px;transition:width .8s;}
-.prog-mark{position:absolute;top:0;height:100%;width:2px;background:#E8650A;}
-.leg{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:#888;margin-bottom:12px;}
-.leg span{display:flex;align-items:center;gap:5px;}
-.chart-box{position:relative;width:100%;height:300px;}
-.info-meta{background:rgba(232,101,10,0.08);border:1px solid rgba(232,101,10,0.2);border-radius:8px;padding:10px 16px;margin-bottom:16px;font-size:12px;color:#aaa;display:flex;gap:24px;flex-wrap:wrap;}
-.info-meta strong{color:#E8650A;}
-.tbl-wrap{background:#1a1a1c;border:1px solid rgba(255,255,255,.07);border-radius:12px;overflow:hidden;}
-table{width:100%;border-collapse:collapse;}
-th{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#666;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.07);background:#161617;text-align:left;}
-td{padding:11px 16px;border-bottom:1px solid rgba(255,255,255,.07);font-size:13px;}
-tr:last-child td{border-bottom:none;}
-.vazio{text-align:center;color:#444;padding:28px;font-size:13px;}
-footer{text-align:center;padding:24px;font-size:11px;color:#444;}
-footer a{color:#E8650A;text-decoration:none;opacity:.4;}
-footer a:hover{opacity:1;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0e0e0f;color:#f0ede8;font-family:'Barlow',sans-serif;min-height:100vh}
+header{background:#1a1a1c;border-bottom:1px solid rgba(255,255,255,.07);padding:14px 28px;display:flex;align-items:center;gap:14px}
+.brand{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:700;color:#E8650A;line-height:1}
+.brand-sub{font-size:10px;color:#666;text-transform:uppercase;letter-spacing:.1em;margin-top:2px}
+.header-r{margin-left:auto;text-align:right}
+.pill{display:inline-block;font-size:12px;color:#E8650A;background:rgba(232,101,10,.12);border:1px solid rgba(232,101,10,.3);padding:4px 14px;border-radius:99px}
+.vivo{font-size:11px;color:#666;margin-top:4px;display:flex;align-items:center;justify-content:flex-end;gap:5px}
+.vivo::before{content:'';width:6px;height:6px;border-radius:50%;background:#1D9E75;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
+.page{max-width:1200px;margin:0 auto;padding:22px 28px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+@media(max-width:700px){.kpis{grid-template-columns:repeat(2,1fr)}.page{padding:14px}}
+.kpi{background:#1a1a1c;border:1px solid rgba(255,255,255,.07);border-left:3px solid #E8650A;border-radius:12px;padding:16px 18px}
+.kpi.g{border-left-color:#1D9E75}.kpi.r{border-left-color:#E24B4A}.kpi.n{border-left-color:#444}
+.klbl{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#666;margin-bottom:7px}
+.kval{font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:700;line-height:1}
+.ksub{font-size:12px;color:#666;margin-top:5px}
+.badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600}
+.bah{background:rgba(232,101,10,.15);color:#EF9F27}.bok{background:rgba(29,158,117,.15);color:#5DCAA5}.bno{background:rgba(226,75,74,.15);color:#F09595}
+.card{background:#1a1a1c;border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:18px 22px;margin-bottom:16px}
+.ctitle{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:#666;margin-bottom:12px}
+.prog-lbl{display:flex;justify-content:space-between;font-size:12px;color:#666;margin-bottom:6px}
+.prog-track{height:10px;background:#222225;border-radius:99px;position:relative;overflow:hidden}
+.prog-fill{height:100%;border-radius:99px;transition:width .8s}
+.prog-mark{position:absolute;top:0;height:100%;width:2px;background:#E8650A}
+.leg{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:#888;margin-bottom:12px}
+.leg span{display:flex;align-items:center;gap:5px}
+.chart-box{position:relative;width:100%;height:300px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+@media(max-width:800px){.two-col{grid-template-columns:1fr}}
+.rank-item{background:#161617;border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:12px;border-left:3px solid #444;margin-bottom:8px}
+.rank-item.p1{border-left-color:#FFD700}.rank-item.p2{border-left-color:#C0C0C0}.rank-item.p3{border-left-color:#CD7F32}
+.rank-num{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;width:28px;text-align:center}
+.rank-info{flex:1}
+.rank-nome{font-size:13px;font-weight:600}
+.rank-det{font-size:11px;color:#888;margin-top:2px;display:flex;gap:10px;flex-wrap:wrap}
+.rank-right{text-align:right;flex-shrink:0}
+.rank-val{font-size:15px;font-weight:700}
+.rank-sub{font-size:10px;color:#666;margin-top:1px}
+.mvp{background:linear-gradient(135deg,rgba(232,101,10,.15),rgba(232,101,10,.05));border:1px solid rgba(232,101,10,.3);border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.mvp-icon{font-size:36px;flex-shrink:0}
+.mvp-nome{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:#E8650A}
+.mvp-det{font-size:12px;color:#888;margin-top:3px}
+.mvp-right{margin-left:auto;text-align:right}
+.mvp-val{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:#E8650A}
+.ok{color:#1D9E75}.no{color:#E24B4A}
+.vazio{text-align:center;color:#444;padding:20px;font-size:13px}
+footer{text-align:center;padding:24px;font-size:11px;color:#444}
+footer a{color:#E8650A;opacity:.4;text-decoration:none}
+footer a:hover{opacity:1}
 </style>
 </head>
 <body>
-
 <header>
   <svg width="38" height="44" viewBox="0 0 42 48" fill="none">
     <path d="M21 1L3 9V25C3 35 11 43.5 21 47C31 43.5 39 35 39 25V9L21 1Z" fill="#1e1e20" stroke="#E8650A" stroke-width="2.2"/>
     <text x="21" y="31" text-anchor="middle" font-size="19" font-weight="700" fill="#E8650A" font-family="Georgia,serif">K</text>
   </svg>
-  <div>
-    <div class="brand">Kastello</div>
-    <div class="brand-sub">tudo em construção</div>
-  </div>
+  <div><div class="brand">Kastello</div><div class="brand-sub">tudo em construção</div></div>
   <div class="header-r">
     <div class="pill" id="elMes">—</div>
     <div class="vivo">tempo real</div>
@@ -69,89 +76,58 @@ footer a:hover{opacity:1;}
 </header>
 
 <div class="page">
-
   <div class="kpis">
-    <div class="kpi" id="k1">
-      <div class="klbl">meta hoje</div>
-      <div class="kval" id="vMeta">—</div>
-      <div class="ksub" id="sMeta">carregando</div>
-    </div>
-    <div class="kpi" id="k2">
-      <div class="klbl">realizado</div>
-      <div class="kval" id="vReal">—</div>
-      <div class="ksub" id="sReal">carregando</div>
-    </div>
-    <div class="kpi" id="k3">
-      <div class="klbl">diferença</div>
-      <div class="kval" id="vDiff">—</div>
-      <div class="ksub" id="sDiff"></div>
-    </div>
-    <div class="kpi n">
-      <div class="klbl">meta do mês</div>
-      <div class="kval">100%</div>
-      <div class="ksub" id="sDias">dias úteis</div>
-    </div>
-  </div>
-
-  <div class="info-meta" id="infoMeta" style="display:none">
-    <span>Meta diária (seg-sex): <strong id="iMetaDia">—</strong></span>
-    <span>Meta sábado (até 13h): <strong id="iMetaSab">—</strong></span>
-    <span>Dias equivalentes no mês: <strong id="iDiasEq">—</strong></span>
+    <div class="kpi" id="k1"><div class="klbl">meta hoje</div><div class="kval" id="vMeta">—</div><div class="ksub" id="sMeta">...</div></div>
+    <div class="kpi" id="k2"><div class="klbl">realizado</div><div class="kval" id="vReal">—</div><div class="ksub" id="sReal">...</div></div>
+    <div class="kpi" id="k3"><div class="klbl">diferença</div><div class="kval" id="vDiff">—</div><div class="ksub" id="sDiff"></div></div>
+    <div class="kpi n"><div class="klbl">meta do mês</div><div class="kval">100%</div><div class="ksub" id="sDias">...</div></div>
   </div>
 
   <div class="card">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-      <span class="ctitle" style="margin-bottom:0">progresso geral do mês</span>
+      <span class="ctitle" style="margin-bottom:0">progresso geral</span>
       <span id="elPct" style="font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:700;color:#E8650A">0%</span>
     </div>
-    <div class="prog-lbl">
-      <span>0%</span>
-      <span id="elMetaLbl" style="color:#E8650A">meta hoje: —</span>
-      <span>100%</span>
-    </div>
+    <div class="prog-lbl"><span>0%</span><span id="metaLbl" style="color:#E8650A">meta hoje: —</span><span>100%</span></div>
     <div class="prog-track">
-      <div class="prog-fill" id="elFill" style="width:0%;background:#1D9E75"></div>
-      <div class="prog-mark" id="elMark" style="left:0%"></div>
+      <div class="prog-fill" id="pFill" style="width:0%;background:#1D9E75"></div>
+      <div class="prog-mark" id="pMark" style="left:0%"></div>
     </div>
   </div>
 
   <div class="card">
     <div class="ctitle">meta x resultado diário</div>
     <div class="leg">
-      <span><span style="width:11px;height:11px;border-radius:2px;background:#1D9E75;display:inline-block"></span> acima da meta</span>
-      <span><span style="width:11px;height:11px;border-radius:2px;background:#E24B4A;display:inline-block"></span> abaixo da meta</span>
-      <span><span style="width:20px;height:3px;background:#E8650A;display:inline-block;border-radius:1px"></span> meta do dia</span>
-      <span><span style="width:11px;height:11px;border-radius:2px;background:rgba(232,101,10,0.4);display:inline-block"></span> sábado</span>
+      <span><span style="width:10px;height:10px;border-radius:2px;background:#1D9E75;display:inline-block"></span>acima da meta</span>
+      <span><span style="width:10px;height:10px;border-radius:2px;background:#E24B4A;display:inline-block"></span>abaixo da meta</span>
+      <span><span style="width:18px;height:2px;background:#E8650A;display:inline-block;border-radius:1px"></span>meta do dia</span>
     </div>
-    <div class="chart-box">
-      <canvas id="elChart" role="img" aria-label="Gráfico de barras com resultado diário e linha de meta acumulada Kastello">Gráfico meta x resultado Kastello.</canvas>
-    </div>
+    <div class="chart-box"><canvas id="grafico"></canvas></div>
   </div>
 
-  <div class="tbl-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>Data</th>
-          <th>Dia</th>
-          <th>Meta do dia</th>
-          <th>% Realizado</th>
-          <th>Acumulado</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody id="elTabela">
-        <tr><td colspan="6" class="vazio">carregando...</td></tr>
-      </tbody>
-    </table>
+  <div class="two-col">
+    <div class="card" style="margin-bottom:0">
+      <div class="ctitle">🏆 ranking do dia — <span id="rankData">—</span></div>
+      <div id="rankDia"><div class="vazio">nenhum dado hoje.</div></div>
+    </div>
+    <div>
+      <div id="mvpBox" style="display:none" class="mvp">
+        <div class="mvp-icon">🥇</div>
+        <div><div class="mvp-nome" id="mvpNome">—</div><div class="mvp-det" id="mvpDet">—</div></div>
+        <div class="mvp-right"><div class="mvp-val" id="mvpVal">—</div><div style="font-size:10px;color:#666">melhor do mês</div></div>
+      </div>
+      <div class="card" style="margin-bottom:0">
+        <div class="ctitle">📊 ranking do mês</div>
+        <div id="rankMes"><div class="vazio">nenhum dado.</div></div>
+      </div>
+    </div>
   </div>
-
 </div>
 
-<footer>Kastello &nbsp;·&nbsp; <a href="https://thevinylarchivesoficial-pixel.github.io/kastello-metas-v2/admin.html">painel admin</a></footer>
+<footer>Kastello &nbsp;·&nbsp; <a href="admin.html">admin</a></footer>
 
 <script>
-firebase.initializeApp({
+var FB_CONFIG = {
   apiKey:"AIzaSyCe1JUlhS3r9i4YZSItDIZsWZf4hFPpuno",
   authDomain:"kastello-metas.firebaseapp.com",
   databaseURL:"https://kastello-metas-default-rtdb.firebaseio.com",
@@ -159,190 +135,190 @@ firebase.initializeApp({
   storageBucket:"kastello-metas.firebasestorage.app",
   messagingSenderId:"625257962794",
   appId:"1:625257962794:web:2273fe4852773ec3089253"
-});
+};
+firebase.initializeApp(FB_CONFIG);
 var db = firebase.database();
-var META = 2076000;
-var MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-var DIAS_SEMANA = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
-var chart = null;
 
-function lpad(n){ return String(n).padStart(2,'0'); }
-function isoHoje(){ var d=new Date(); return d.getFullYear()+'-'+lpad(d.getMonth()+1)+'-'+lpad(d.getDate()); }
+var MESES=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+var DSEM=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+var grafico=null;
+var META_DEFAULT=2076000;
+var state={lancamentos:[],vendedores:{},meta:META_DEFAULT};
 
-// Calcula dias úteis incluindo sábados como 0.5
-function diasUteis(mes, ano){
-  var lista=[], totalEq=0, d=new Date(ano,mes-1,1);
+function p2(n){return String(n).padStart(2,'0')}
+function hoje(){var d=new Date();return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate())}
+function fBRL(v){return 'R$\u00a0'+parseFloat(v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}
+
+function diasUteis(mes,ano){
+  var l=[],eq=0,d=new Date(ano,mes-1,1);
   while(d.getMonth()===mes-1){
-    var dw=d.getDay();
-    var iso=d.getFullYear()+'-'+lpad(d.getMonth()+1)+'-'+lpad(d.getDate());
-    var label=lpad(d.getDate())+'/'+lpad(mes);
-    if(dw>=1&&dw<=5){
-      totalEq+=1;
-      lista.push({iso,label,dw,peso:1,seq:totalEq,isSab:false});
-    } else if(dw===6){
-      totalEq+=0.5;
-      lista.push({iso,label,dw,peso:0.5,seq:totalEq,isSab:true});
-    }
+    var dw=d.getDay(),iso=d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate());
+    if(dw>=1&&dw<=5){eq+=1;l.push({iso,label:p2(d.getDate())+'/'+p2(mes),dw,peso:1,seq:eq,sab:false});}
+    else if(dw===6){eq+=0.5;l.push({iso,label:p2(d.getDate())+'/'+p2(mes),dw,peso:0.5,seq:eq,sab:true});}
     d.setDate(d.getDate()+1);
   }
-  return {lista, totalEq};
+  return{l,eq};
 }
 
-function fmtBRL(v){ return 'R$ '+Math.round(v).toLocaleString('pt-BR'); }
+function render(){
+  var META=state.meta||META_DEFAULT;
+  var d=new Date(),mes=d.getMonth()+1,ano=d.getFullYear();
+  var hISO=hoje(),prefix=ano+'-'+p2(mes);
+  var {l:dias,eq:totalEq}=diasUteis(mes,ano);
+  var metaDia=META/totalEq,metaSab=metaDia*0.5;
 
-function render(lancamentos){
-  var hoje=new Date(), mes=hoje.getMonth()+1, ano=hoje.getFullYear();
-  var hISO=isoHoje(), prefix=ano+'-'+lpad(mes);
-  var {lista:dias, totalEq}=diasUteis(mes,ano);
-  var metaPorEq = META/totalEq;
-  var metaDia   = metaPorEq;
-  var metaSab   = metaPorEq*0.5;
-
-  // KPI meta hoje
+  // Dias decorridos
   var duHoje=0;
-  for(var i=0;i<dias.length;i++){ if(dias[i].iso<=hISO) duHoje+=dias[i].peso; }
+  dias.forEach(function(x){if(x.iso<=hISO)duHoje+=x.peso;});
   var metaPct=+(duHoje/totalEq*100).toFixed(1);
 
   // Lançamentos do mês
-  var realMap={}, totalReal=0;
-  for(var j=0;j<lancamentos.length;j++){
-    var e=lancamentos[j], dt=e.date||e.data||'';
-    if(dt.substring(0,7)===prefix){
-      var v=parseFloat(e.valor)||0;
-      realMap[dt]=(realMap[dt]||0)+v; totalReal+=v;
-    }
-  }
+  var rm={},totalReal=0;
+  state.lancamentos.forEach(function(e){
+    var dt=e.date||e.data||'';
+    if(dt.substring(0,7)===prefix){var v=parseFloat(e.valor)||0;rm[dt]=(rm[dt]||0)+v;totalReal+=v;}
+  });
 
   var realPct=+(totalReal/META*100).toFixed(1);
   var diff=+(realPct-metaPct).toFixed(1);
 
-  // Info meta
+  // Header
   document.getElementById('elMes').textContent=MESES[mes-1]+' / '+ano;
-  document.getElementById('iMetaDia').textContent=fmtBRL(metaDia);
-  document.getElementById('iMetaSab').textContent=fmtBRL(metaSab);
-  document.getElementById('iDiasEq').textContent=totalEq+' dias equiv.';
 
   // KPIs
   document.getElementById('vMeta').textContent=metaPct+'%';
   document.getElementById('sMeta').textContent=duHoje+' de '+totalEq+' dias equiv.';
   document.getElementById('sDias').textContent=totalEq+' dias equiv.';
   document.getElementById('vReal').textContent=realPct+'%';
-  document.getElementById('sReal').textContent=Object.keys(realMap).length+' dia(s) lançado(s)';
+  document.getElementById('sReal').textContent=Object.keys(rm).length+' dia(s) lançado(s)';
   document.getElementById('k2').className='kpi '+(realPct>=metaPct?'g':'r');
-
   var vd=document.getElementById('vDiff');
   vd.textContent=(diff>=0?'+':'')+diff+'pp';
   vd.style.color=diff>=0?'#1D9E75':'#E24B4A';
   document.getElementById('k3').className='kpi '+(diff>=0?'g':'r');
   var sl,sc;
-  if(diff>0.5){sl='adiantado';sc='bah';}
-  else if(diff>=-0.5){sl='no prazo';sc='bok';}
-  else{sl='atrasado';sc='bno';}
+  if(diff>0.5){sl='adiantado';sc='bah';}else if(diff>=-0.5){sl='no prazo';sc='bok';}else{sl='atrasado';sc='bno';}
   document.getElementById('sDiff').innerHTML='<span class="badge '+sc+'">'+sl+'</span>';
 
-  // Barra
+  // Progresso
   document.getElementById('elPct').textContent=realPct+'%';
-  document.getElementById('elFill').style.width=Math.min(realPct,100)+'%';
-  document.getElementById('elFill').style.background=diff>=0?'#1D9E75':'#E24B4A';
-  document.getElementById('elMark').style.left=Math.min(metaPct,100)+'%';
-  document.getElementById('elMetaLbl').textContent='meta hoje: '+metaPct+'%';
+  document.getElementById('pFill').style.width=Math.min(realPct,100)+'%';
+  document.getElementById('pFill').style.background=diff>=0?'#1D9E75':'#E24B4A';
+  document.getElementById('pMark').style.left=Math.min(metaPct,100)+'%';
+  document.getElementById('metaLbl').textContent='meta hoje: '+metaPct+'%';
 
   // Gráfico
-  var labels=[],metaLine=[],realLine=[],cores=[];
-  var acum=0;
-  for(var k=0;k<dias.length;k++){
-    var dia=dias[k];
-    var mPct=+(dia.seq/totalEq*100).toFixed(2);
-    var vDia=realMap[dia.iso]||0;
-    var pDia=+(vDia/META*100).toFixed(2);
-    labels.push(dia.label+(dia.isSab?' ☆':''));
-    metaLine.push(mPct);
-    if(dia.iso<=hISO){
+  var labels=[],metaLine=[],realLine=[],cores=[],acum=0;
+  dias.forEach(function(x){
+    var mPct=+(x.seq/totalEq*100).toFixed(2);
+    var vDia=rm[x.iso]||0;
+    var mDia=x.sab?metaSab:metaDia;
+    labels.push(x.label+(x.sab?' ☆':''));
+    metaLine.push(+(x.peso===0.5?metaSab/META*100:metaDia/META*100).toFixed(2));
+    if(x.iso<=hISO){
       acum+=vDia;
-      var aPct=+(acum/META*100).toFixed(2);
-      realLine.push(pDia);
-      // Verde se passou da meta do dia, vermelho se ficou abaixo
-      if(dia.isSab){
-        cores.push(vDia>=metaSab?'rgba(29,158,117,0.85)':'rgba(226,75,74,0.8)');
-      } else {
-        cores.push(vDia>=metaDia?'rgba(29,158,117,0.85)':'rgba(226,75,74,0.8)');
-      }
-    } else {
+      realLine.push(+(vDia/META*100).toFixed(2));
+      cores.push(vDia>=mDia?'rgba(29,158,117,.85)':'rgba(226,75,74,.8)');
+    }else{
       realLine.push(null);
-      cores.push(dia.isSab?'rgba(232,101,10,0.15)':'rgba(80,80,80,0.15)');
+      cores.push(x.sab?'rgba(232,101,10,.1)':'rgba(80,80,80,.15)');
     }
-  }
-
-  // Linha de meta do dia (fixa por tipo de dia)
-  var metaDiaLine = [];
-  for(var ki=0;ki<dias.length;ki++){
-    if(dias[ki].iso<=hISO){
-      metaDiaLine.push(+(dias[ki].peso===0.5 ? metaSab/META*100 : metaDia/META*100).toFixed(2));
-    } else {
-      metaDiaLine.push(+(dias[ki].peso===0.5 ? metaSab/META*100 : metaDia/META*100).toFixed(2));
-    }
-  }
-
-  // Calcular escala Y máxima dinamicamente
-  var maxReal = Math.max.apply(null, realLine.filter(function(v){return v!==null;}));
-  var maxMeta = Math.max.apply(null, metaDiaLine);
-  var yMax = Math.ceil(Math.max(maxReal, maxMeta) * 1.3 / 5) * 5;
-  if(yMax < 15) yMax = 15;
-
-  if(chart){ chart.destroy(); chart=null; }
-  chart=new Chart(document.getElementById('elChart'),{
+  });
+  var yMax=Math.max(15,Math.ceil(Math.max.apply(null,metaLine.concat(realLine.filter(function(v){return v!==null;}))||[15])*1.4/5)*5);
+  if(grafico){grafico.destroy();grafico=null;}
+  grafico=new Chart(document.getElementById('grafico'),{
     type:'bar',
-    data:{ labels, datasets:[
-      { label:'Resultado do dia', data:realLine, type:'bar', backgroundColor:cores, borderWidth:0, borderRadius:3, order:2 },
-      { label:'Meta do dia', data:metaDiaLine, type:'line', borderColor:'#E8650A', borderWidth:2.5, pointRadius:3, pointBackgroundColor:'#E8650A', pointBorderColor:'#0e0e0f', pointBorderWidth:1.5, tension:0, fill:false, order:1 }
+    data:{labels,datasets:[
+      {label:'Resultado',data:realLine,type:'bar',backgroundColor:cores,borderWidth:0,borderRadius:3,order:2},
+      {label:'Meta do dia',data:metaLine,type:'line',borderColor:'#E8650A',borderWidth:2,pointRadius:2,pointBackgroundColor:'#E8650A',tension:0,fill:false,order:1}
     ]},
-    options:{
-      responsive:true, maintainAspectRatio:false, animation:false,
-      plugins:{ legend:{display:false}, tooltip:{
-        backgroundColor:'#1a1a1c', titleColor:'#aaa', bodyColor:'#aaa', borderColor:'#333', borderWidth:1,
-        callbacks:{ label:function(ctx){ return ctx.dataset.label+': '+(ctx.parsed.y!==null?ctx.parsed.y.toFixed(1)+'%':'—'); }}
-      }},
+    options:{responsive:true,maintainAspectRatio:false,animation:false,
+      plugins:{legend:{display:false},tooltip:{backgroundColor:'#1a1a1c',titleColor:'#aaa',bodyColor:'#aaa',borderColor:'#333',borderWidth:1,
+        callbacks:{label:function(c){return c.dataset.label+': '+(c.parsed.y!==null?c.parsed.y.toFixed(1)+'%':'—');}}}},
       scales:{
-        x:{ ticks:{color:'#555',font:{size:9},maxRotation:45,autoSkip:true,maxTicksLimit:14}, grid:{color:'rgba(255,255,255,0.03)'} },
-        y:{ min:0, max:yMax, ticks:{color:'#555',font:{size:10},callback:function(v){return v+'%'},stepSize:5}, grid:{color:'rgba(255,255,255,0.03)'} }
+        x:{ticks:{color:'#555',font:{size:9},maxRotation:45,autoSkip:true,maxTicksLimit:14},grid:{color:'rgba(255,255,255,.03)'}},
+        y:{min:0,max:yMax,ticks:{color:'#555',font:{size:10},callback:function(v){return v+'%'},stepSize:5},grid:{color:'rgba(255,255,255,.03)'}}
       }
     }
   });
 
-  // Tabela
-  var tbody=document.getElementById('elTabela');
-  var eMes=lancamentos.filter(function(e){ return (e.date||e.data||'').substring(0,7)===prefix; });
-  if(!eMes.length){ tbody.innerHTML='<tr><td colspan="6" class="vazio">nenhum lançamento ainda.</td></tr>'; return; }
+  // Ranking vendedores
+  renderRanking(dias,prefix,hISO,META);
+}
 
-  eMes.sort(function(a,b){ var da=a.date||a.data,db=b.date||b.data; return da<db?-1:da>db?1:0; });
-  var ac=0, acMap={};
-  eMes.forEach(function(e){ ac+=parseFloat(e.valor)||0; acMap[e.date||e.data]=ac; });
+function renderRanking(dias,prefix,hISO,META){
+  var vd=state.vendedores||{};
 
-  tbody.innerHTML=eMes.slice().reverse().map(function(e){
-    var dt=e.date||e.data, val=parseFloat(e.valor)||0;
-    var diaInfo=dias.find(function(x){return x.iso===dt;});
-    var isSab=diaInfo?diaInfo.isSab:false;
-    var metaDoDia=isSab?metaSab:metaDia;
-    var pct=+(val/META*100).toFixed(1);
-    var ap=+(acMap[dt]/META*100).toFixed(1);
-    var p=dt.split('-');
-    var dow=diaInfo?DIAS_SEMANA[diaInfo.dw]:'—';
-    var bateu=val>=metaDoDia;
-    var sl2=bateu?'acima':'abaixo', sc2=bateu?'bok':'bno';
-    return '<tr>'+
-      '<td>'+p[2]+'/'+p[1]+'/'+p[0]+'</td>'+
-      '<td style="color:#888">'+dow+(isSab?' ☆':'')+'</td>'+
-      '<td style="color:#888">'+pct+'%</td>'+
-      '<td style="color:'+(bateu?'#1D9E75':'#E24B4A')+'">'+pct+'%</td>'+
-      '<td style="font-weight:600">'+ap+'%</td>'+
-      '<td><span class="badge '+sc2+'">'+sl2+' da meta</span></td>'+
-      '</tr>';
+  // Dia
+  document.getElementById('rankData').textContent=hISO.split('-').reverse().join('/');
+  var vHoje=[];
+  Object.keys(vd).forEach(function(nome){
+    var r=vd[nome]&&vd[nome][hISO];
+    if(r){vHoje.push({nome,bruta:r.bruta||0,liquida:r.liquida||0,qtd:r.qtd||0});}
+  });
+  renderLista(vHoje,'rankDia');
+
+  // Mês
+  var vMes={};
+  Object.keys(vd).forEach(function(nome){
+    Object.keys(vd[nome]||{}).forEach(function(dt){
+      if(dt.substring(0,7)===prefix){
+        if(!vMes[nome])vMes[nome]={nome,bruta:0,liquida:0,qtd:0};
+        vMes[nome].bruta+=vd[nome][dt].bruta||0;
+        vMes[nome].liquida+=vd[nome][dt].liquida||0;
+        vMes[nome].qtd+=vd[nome][dt].qtd||0;
+      }
+    });
+  });
+  var arrMes=Object.values(vMes);
+  renderLista(arrMes,'rankMes');
+
+  // MVP
+  var comMargem=arrMes.filter(function(v){return v.bruta>0&&v.liquida/v.bruta>=0.45;});
+  var mvpBox=document.getElementById('mvpBox');
+  if(comMargem.length){
+    comMargem.sort(function(a,b){return b.liquida-a.liquida;});
+    var mvp=comMargem[0];
+    var mg=(mvp.liquida/mvp.bruta*100).toFixed(1);
+    mvpBox.style.display='flex';
+    document.getElementById('mvpNome').textContent=mvp.nome;
+    document.getElementById('mvpDet').innerHTML=fBRL(mvp.liquida)+' líquido &nbsp;·&nbsp; <span class="ok">margem '+mg+'% ✅</span>';
+    document.getElementById('mvpVal').textContent=fBRL(mvp.bruta);
+  }else{mvpBox.style.display='none';}
+}
+
+function renderLista(arr,id){
+  var el=document.getElementById(id);
+  if(!arr||!arr.length){el.innerHTML='<div class="vazio">nenhum dado.</div>';return;}
+  arr.sort(function(a,b){return b.bruta-a.bruta;});
+  var cores=['#FFD700','#C0C0C0','#CD7F32'];
+  el.innerHTML=arr.map(function(v,i){
+    var mg=v.bruta>0?(v.liquida/v.bruta*100).toFixed(1):'0';
+    var mgOk=parseFloat(mg)>=45;
+    var cls=i<3?'p'+(i+1):'';
+    var cor=i<3?cores[i]:'#555';
+    return '<div class="rank-item '+cls+'">'+
+      '<div class="rank-num" style="color:'+cor+'">'+(i+1)+'°</div>'+
+      '<div class="rank-info">'+
+        '<div class="rank-nome">'+v.nome+'</div>'+
+        '<div class="rank-det">'+
+          '<span>'+fBRL(v.bruta)+'</span>'+
+          '<span>Qtd: '+v.qtd+'</span>'+
+          '<span class="'+(mgOk?'ok':'no')+'">'+mg+'% '+(mgOk?'✅':'❌')+'</span>'+
+        '</div>'+
+      '</div>'+
+      '<div class="rank-right">'+
+        '<div class="rank-val" style="color:'+(mgOk?'#1D9E75':'#888')+'">'+fBRL(v.liquida)+'</div>'+
+        '<div class="rank-sub">líquido</div>'+
+      '</div>'+
+    '</div>';
   }).join('');
 }
 
-db.ref('lancamentos').on('value', function(snap){
-  render(Object.values(snap.val()||{}));
-});
+// Firebase listeners
+db.ref('lancamentos').on('value',function(s){state.lancamentos=Object.values(s.val()||{});render();});
+db.ref('vendedores').on('value',function(s){state.vendedores=s.val()||{};render();});
+db.ref('config/meta').on('value',function(s){state.meta=s.val()||META_DEFAULT;render();});
 </script>
 </body>
 </html>
